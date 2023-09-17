@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema({
   friends: [{
     type: mongoose.Schema.ObjectId,
     ref: 'User'
-  }]
+  }],
 })
 
 userSchema.pre('remove', async function(next) {

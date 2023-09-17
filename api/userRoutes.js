@@ -19,7 +19,7 @@ router.get("/:id", async (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-router.put("/", async (req, res) => {
+router.put("/:id", async (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(() => res.status(200).send('updated'))
     .catch(err => res.status(400).send(err))
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-router.post("/:userId/friends/:friendId", async (req, res) => {
+router.put("/:userId/friends/:friendId", async (req, res) => {
     // add friend to :userId's friends list
     User.findByIdAndUpdate(req.params.userId, {
         $push: { friends: req.params.friendId }}, { new: true })
@@ -41,8 +41,8 @@ router.post("/:userId/friends/:friendId", async (req, res) => {
 })
 
 
-router.delete("/", async (req, res) => {
-    User.deleteOne({ _id: req.params.id })
+router.delete("/:id", async (req, res) => {
+    User.findByIdAndDelete(req.params.id)
     .then(() => res.status(200).send('deleted'))
     .catch(err => res.status(400).send(err))
 })

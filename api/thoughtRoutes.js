@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-router.put("/", async (req, res) => {
+router.put("/:id", async (req, res) => {
     let data = req.body
     Thought.findByIdAndUpdate(req.params.id, data, { new: true })
     .then(() => res.status(200).send('updated'))
