@@ -1,5 +1,5 @@
-const User = require('./User.js')
-const Thought = require('./Thought.js')
+const User = require('./userSchema')
+const Thought = require('./thoughtSchema')
 
 
 module.exports =  { User, Thought }

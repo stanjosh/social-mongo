@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const validateEmail = require('../util/validateEmail');
-const { Thought } = require('.');
-
 
 const userSchema = mongoose.Schema({
   username: { 
@@ -26,16 +24,14 @@ const userSchema = mongoose.Schema({
   }]
 })
 
-
 userSchema.pre('remove', async function(next) {
   Thought.remove({ user_id: this._id }).exec();
   next();
 })
-
 
 userSchema.virtual('friendCount').get(function() {
   return this.friends.length();
 })
 
 
-module.exports =  mongoose.model("User", userSchema);
+module.exports =  mongoose.model('User', userSchema);

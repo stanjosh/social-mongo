@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-
-
 const thoughtSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.ObjectId,
@@ -17,7 +15,7 @@ const thoughtSchema = new mongoose.Schema({
         default: Date.now,
         get: (value) => dateFormat(value)
     },
-    Reactions: [{
+    reactions: [{
         reactionId: {
             type: mongoose.Schema.ObjectId,
         },
@@ -41,7 +39,7 @@ const thoughtSchema = new mongoose.Schema({
 })
 
 thoughtSchema.virtual('reactionCount').get(function() {
-    return this.Reactions.length();
+    return this.reactions.length();
 })
 
 module.exports  = mongoose.model('Thought', thoughtSchema)

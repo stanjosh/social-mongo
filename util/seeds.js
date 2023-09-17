@@ -1,5 +1,5 @@
-const Thought = require('./Thought')
-const User = require('./User')
+const Thought = require('../model/Thought')
+const User = require('../model/User')
 
 const db = require('../connection')
 

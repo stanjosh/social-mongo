@@ -1,14 +1,20 @@
-const express = require('express')
-const router = express.Router()
-const Thought = require('../model/Thought')
+const router = require('express').Router();
+const Thought = require('../model/thoughtSchema')
 
 router.get("/", async (req, res) => {
-
+    Thought.find({})
+    .then((data) => {
+        console.log(data);
+        return res.status(200).send(data)
+    })
+    .catch(err => res.status(400).send(err))
 })
 
 router.get("/:id", async (req, res) => {
     Thought.findById(req.params.id)
-    .then((data) => res.status(200).send(data))
+    .then((data) => {
+        return res.status(200).send(data)
+    })
     .catch(err => res.status(400).send(err))
 })
 
