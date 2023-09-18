@@ -52,25 +52,34 @@ const thoughtData = [
 ]
 
 
+const seedUsers = async() => {
+    await db.dropCollection('users');
 
+    await User.create(userData)
+    
+}
 
-
- 
-db.once('connected', () => {
-    console.log('Database Connected');
-
-    db.dropCollection('users');
-    db.dropCollection('thoughts');
-    db.dropCollection('reactions');
-
-    userData.forEach(user => {
-        User.create(user)
-    })
-
+const seedThoughts = async  () => {
+    await db.dropCollection('thoughts');
+    let users = await User.find({})
+    
+    users = users.map(user => user._id)
+    console.log(users)
     thoughtData.forEach(thought => {
-        Thought.create(thought)
+      thought['createdBy'] = users[Math.floor(Math.random() * users.length)]
     })
 
+    await Thought.create(thoughtData)
+    
+}
+ 
+
+
+
+db.once('open', async () => {
+    console.log('Database Connected');
+    await seedUsers()
+    await seedThoughts()
     console.log('Database Seeded');
     process.exit(0);
 })

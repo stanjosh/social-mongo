@@ -1,22 +1,25 @@
 const router = require('express').Router();
-const User = require('../model/userSchema');
+const User = require('../model/User');
 
 router.get("/", async (req, res) => {
     //get all user
-    User.find({})
-    .then((data) => {
-        console.log(data);
-        return res.status(200).send(data)
-    })
-    .catch(err => res.status(400).send(err))
+    const user = await User
+    .find({})
+    .populate("thoughts")
+    .populate("friends")
+    .exec()
+
+    return user ? res.status(200).send(user) : res.status(400).send(err)
 })
 
 router.get("/:id", async (req, res) => {
-    User.findById(req.params.id)
-    .then((data) => {
-        return res.status(200).send(data)
-    })
-    .catch(err => res.status(400).send(err))
+    const user = await User
+    .findById(req.params.id)
+    .populate("thoughts")
+    .populate("friends")
+    .exec()
+
+    return user ? res.status(200).send(user) : res.status(400).send(err)
 })
 
 router.put("/:id", async (req, res) => {

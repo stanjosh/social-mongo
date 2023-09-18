@@ -4,7 +4,7 @@
   "description": "MongoDB/Mongoose API",
   "main": "index.js",
   "scripts": {
-    "seed": "node model/seeds.js",
+    "seed": "node util/seeds.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

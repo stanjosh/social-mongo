@@ -1,22 +1,24 @@
 const router = require('express').Router();
-const Thought = require('../model/thoughtSchema')
+const Thought = require('../model/Thought')
 
 router.get("/", async (req, res) => {
-    Thought.find({})
-    .then((data) => {
-        console.log(data);
-        return res.status(200).send(data)
-    })
-    .catch(err => res.status(400).send(err))
+    const thought = await Thought
+    .find({})
+    .populate("reactions")
+    .exec()
+
+    return thought ? res.status(200).send(thought) : res.status(400)
 })
 
 router.get("/:id", async (req, res) => {
-    Thought.findById(req.params.id)
-    .then((data) => {
-        return res.status(200).send(data)
-    })
-    .catch(err => res.status(400).send(err))
+    const thought = await Thought
+    .findById(req.params.id)
+    .populate("reactions")
+    .exec()
+
+    return thought ? res.status(200).send(thought) : res.status(400)
 })
+
 
 router.put("/:id", async (req, res) => {
     let data = req.body
@@ -32,7 +34,7 @@ router.post("/", async (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-router.delete("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     Thought.findByIdAndDelete(req.params.id)
     .then(() => res.status(200).send('deleted'))
     .catch(err => res.status(400).send(err))
@@ -47,10 +49,9 @@ router.post('/:thoughtId/reactions', async (req, res) => {
 })
 
 
-router.delete('/:thoughtId/reactions', async (req, res) => {
-    // delete reaction from a thought
+router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
     Thought.findByIdAndUpdate(req.params.thoughtId, {
-        $pull: { reactions: { reactionId: req.params.reactionId }}}, { new: true })
+        $pull: { reactions: {_id : req.params.reactionId }}}, { new: true })
     .then(() => res.status(200).send('reaction deleted'))
     .catch(err => res.status(400).send(err))
 })

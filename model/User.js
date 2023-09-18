@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validateEmail = require('../util/validateEmail');
 
+
 const userSchema = mongoose.Schema({
   username: { 
     type: String,
@@ -15,12 +16,12 @@ const userSchema = mongoose.Schema({
     validate: validateEmail
   },
   thoughts: [{
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Thought'
   }],
   friends: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   }],
 })
 

@@ -16,14 +16,11 @@ const thoughtSchema = new mongoose.Schema({
         get: (value) => dateFormat(value)
     },
     createdBy: { 
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
     reactions: [{
-        reactionId: {
-            type: mongoose.Schema.ObjectId,
-        },
         reactionText: {
             type: String,
             required: true,
